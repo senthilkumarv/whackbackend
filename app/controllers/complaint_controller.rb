@@ -35,8 +35,8 @@ class ComplaintController < ApplicationController
   end
 
   def close
-    if params["id"] && params["mobile"]
-      complaint = Complaint.find_by_reference_id params["id"]
+    if params["reference_id"] && params["mobile"]
+      complaint = Complaint.find_by_reference_id params["reference_id"]
       if complaint && complaint.mobile == params["mobile"]
         complaint.status = "Closed"
         complaint.save
@@ -85,20 +85,6 @@ class ComplaintController < ApplicationController
     end
     
     respond_to do |format|
-      format.json {
-        render :json => @response
-      }
-    end
-  end
-  
-  def show
-    if params[:id]
-      complaint = Complaint.find_by_id params[:id]
-    else
-    end
-
-    respond_to do |format|
-      format.html
       format.json {
         render :json => @response
       }
