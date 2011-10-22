@@ -1,6 +1,13 @@
 require 'uuid'
 
 class ComplaintController < ApplicationController
+  SUCCESSFULLY_REGISTERED = "Complaint was successfully registered"
+  MATCH_NOT_FOUND = "Could not find complaint matching the input" 
+  SUCCESSFULLY_RESOLVED = "Complaint marked as resolved"
+  NEED_TO_CORRECT_DATA = "Provide correct mobile number and complaint id"
+  MATCH_FOUND = "Found matching complaint"
+  COULDNOT_REGISTER_COMPLAINT = "Could not register complaint. Ensure that location and complaint type are provided"
+  
   def index
     @complaints = Complaint.all
     respond_to do |f|
@@ -13,11 +20,13 @@ class ComplaintController < ApplicationController
     if complaint.save
       response = json_from(:response => 201,
                            :reference_id => complaint.reference_id,
+                           :message => SUCCESSFULLY_REGISTERED,
                            :status => complaint.status)
     else
       response = json_from(:response => 507,
                            :reference_id => "",
-                           :status => "NA")
+                           :status => "NA",
+                           :message => COULDNOT_REGISTER_COMPLAINT)
     end
 
     set_json_response response
@@ -29,22 +38,20 @@ class ComplaintController < ApplicationController
       if complaint && complaint.mobile == params["mobile"]
         complaint.status = "Closed"
         complaint.save
-        message = "Successfully closed."
       end
     else
-      message = "Provide correct mobile number and complaint id."
       complaint = nil
     end
 
 
     if complaint
       response = json_from(:response => 200,
-                           :message => message,
+                           :message => SUCCESSFULLY_RESOLVED,
                            :status => complaint.status,
                            :reference_id => complaint.reference_id)
     else
       response = json_from(:response => 404,
-                           :message => message,
+                           :message => NEED_TO_CORRECT_DATA,
                            :status => "NA",
                            :reference_id => "NA")
     end
@@ -58,13 +65,14 @@ class ComplaintController < ApplicationController
     elsif params["mobile"]
       complaint = Complaint.find_all_by_mobile(params["mobile"]).last
     end
-
     if complaint
       response = json_from(:response => 200,
                            :status => complaint.status,
+                           :message => MATCH_FOUND,
                            :reference_id => complaint.reference_id)
     else
       response = json_from(:response => 404,
+                           :message => MATCH_NOT_FOUND,
                            :status => "NA",
                            :reference_id => "NA")
     end
@@ -90,8 +98,10 @@ class ComplaintController < ApplicationController
     complaint = Complaint.new
     complaint.mobile = params["mobile"]
     complaint.location = params["location"]
-    complaint.name = params["name"]
+    complaint.name = "Anonymous"
+    complaint.name = params["name"] if params["name"]
     complaint.complaint_type = params["type"]
+    puts complaint.complaint_type
     complaint.reference_id = UUID.new.generate.gsub("-", "")[1..10].upcase!
     complaint.status = "Open"
     complaint
