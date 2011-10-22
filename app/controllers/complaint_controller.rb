@@ -9,29 +9,18 @@ class ComplaintController < ApplicationController
   end
 
   def create
-    complaint = Complaint.new
-    complaint.mobile = params["mobile"]
-    complaint.location = params["location"]
-    complaint.name = params["name"]
-    complaint.complaint_type = params["type"]
-    complaint.reference_id = UUID.new.generate.gsub("-", "")[1..10].upcase!
-    complaint.status = "Open"
+    complaint = complaint_from params
     if complaint.save
-      @response = {:response => 201,
-        :reference_id => complaint.reference_id,
-        :status => complaint.status}.to_json
+      response = json_from(:response => 201,
+                           :reference_id => complaint.reference_id,
+                           :status => complaint.status)
     else
-      @response = {:response => 507,
-        :reference_id => "",
-        :status => "NA"}.to_json
+      response = json_from(:response => 507,
+                           :reference_id => "",
+                           :status => "NA")
     end
 
-    respond_to do |format|
-      format.json {
-        render :json => @response
-      }
-      format.html
-    end
+    set_json_response response
   end
 
   def close
@@ -49,22 +38,18 @@ class ComplaintController < ApplicationController
 
 
     if complaint
-      @response = {:response => 200,
-        :message => message,
-        :status => complaint.status,
-        :reference_id => complaint.reference_id}.to_json
+      response = json_from(:response => 200,
+                           :message => message,
+                           :status => complaint.status,
+                           :reference_id => complaint.reference_id)
     else
-      @response = {:response => 404,
-        :message => message,
-        :status => "NA",
-        :reference_id => "NA"}.to_json
+      response = json_from(:response => 404,
+                           :message => message,
+                           :status => "NA",
+                           :reference_id => "NA")
     end
-    
-    respond_to do |format|
-      format.json {
-        render :json => @response
-      }
-    end
+
+    set_json_response response
   end
   
   def status
@@ -75,19 +60,40 @@ class ComplaintController < ApplicationController
     end
 
     if complaint
-      @response = {:response => 200,
-        :status => complaint.status,
-        :reference_id => complaint.reference_id}.to_json
+      response = json_from(:response => 200,
+                           :status => complaint.status,
+                           :reference_id => complaint.reference_id)
     else
-      @response = {:response => 404,
-        :status => "NA",
-        :reference_id => "NA"}.to_json
+      response = json_from(:response => 404,
+                           :status => "NA",
+                           :reference_id => "NA")
     end
-    
+
+    set_json_response response
+  end
+
+
+  private
+  def json_from map
+    map.to_json
+  end
+
+  def set_json_response response
     respond_to do |format|
       format.json {
-        render :json => @response
+        render :json => response
       }
     end
+  end
+
+  def complaint_from params
+    complaint = Complaint.new
+    complaint.mobile = params["mobile"]
+    complaint.location = params["location"]
+    complaint.name = params["name"]
+    complaint.complaint_type = params["type"]
+    complaint.reference_id = UUID.new.generate.gsub("-", "")[1..10].upcase!
+    complaint.status = "Open"
+    complaint
   end
 end
