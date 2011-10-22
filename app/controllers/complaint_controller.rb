@@ -68,8 +68,8 @@ class ComplaintController < ApplicationController
   end
   
   def status
-    if params["id"]
-      complaint = Complaint.find_by_reference_id params["id"]
+    if params["reference_id"]
+      complaint = Complaint.find_by_reference_id params["reference_id"]
     elsif params["mobile"]
       complaint = Complaint.find_all_by_mobile(params["mobile"]).last
     end
