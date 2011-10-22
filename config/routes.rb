@@ -2,6 +2,8 @@ Whackbackend::Application.routes.draw do
   get "complaint/index"
   get "complaint/create" => 'Complaint#create'
   get "complaint/show/:id" => 'Complaint#show'
+  get "complaint/status" => 'Complaint#status'
+  get "complaint/close" => 'Complaint#close'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

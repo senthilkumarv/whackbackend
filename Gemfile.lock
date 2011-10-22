@@ -88,6 +88,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  json
   rails (= 3.0.10)
   ruby-debug
   sqlite3
