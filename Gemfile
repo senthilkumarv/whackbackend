@@ -8,6 +8,7 @@ gem 'rails', '3.0.10'
 gem 'sqlite3'
 gem 'uuid'
 gem 'ruby-debug'
+gem 'json'
 
 # Use unicorn as the web server
 # gem 'unicorn'
