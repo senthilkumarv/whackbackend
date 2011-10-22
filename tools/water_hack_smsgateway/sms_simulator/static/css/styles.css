@@ -1,0 +1,32 @@
+div {
+    padding: 10px;
+}
+
+div.container {
+    border: 2px solid;
+    margin: 40px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+#kannel_output {
+    float: left;
+    padding: 40px;
+    width: 60%;
+    color: green;
+}
+
+#sms_input {
+    float: left;
+    width: 30%;
+    border-right: 2px dotted;
+}
+
+#sms_input label {
+    float: left;
+    width: 185px;
+}
+
+#sms_input div {
+    overflow: hidden;
+}
