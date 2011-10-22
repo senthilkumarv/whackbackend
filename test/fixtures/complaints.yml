@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  location: MyText
+  status: MyText
+  type: MyText
+  name: MyText
+  reference_id: MyText
+  mobile: MyText
+
+two:
+  location: MyText
+  status: MyText
+  type: MyText
+  name: MyText
+  reference_id: MyText
+  mobile: MyText
