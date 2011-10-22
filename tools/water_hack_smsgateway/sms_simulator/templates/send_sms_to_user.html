@@ -1,0 +1,16 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-us" xml:lang="en-us">
+<head>
+    <title>Simpa Networks Simulator</title>
+</head>
+<body>
+<div class="container">
+    <form action="/simulator/send_sms" method="get">
+        <div class="">Phone number of user <input type="text" name="phone_number"/></div>
+        Message <input type="text" name="message"/>
+        <input type="submit" name="send" value="Send SMS to User"/>
+    </form>
+</div>
+<div>{{ resp }}</div>
+</body>
+</html>

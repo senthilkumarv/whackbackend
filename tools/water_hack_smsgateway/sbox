@@ -1,0 +1,2 @@
+cd kannel
+/usr/sbin/smsbox kannel-fakesmsc.conf

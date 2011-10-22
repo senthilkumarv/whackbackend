@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-us" xml:lang="en-us">
+<head>
+    <title>Simpa Networks Simulator</title>
+    <script type="text/javascript" src="static/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="static/jquery.timers.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/css/styles.css"/>
+</head>
+<body>
+<div class="container">
+    <div id="sms_input">
+        <div><label>Phone number of app </label><input type="text" value="9894098940" name="app_phone_number" id="app_phone_number"/>
+        </div>
+        <div><label>Phone number of user </label><input type="text" name="user_phone_number" id="user_phone_number"/>
+        </div>
+        <div><label>Message </label><input type="text" name="message" id="message"/></div>
+        <div><input type="submit" name="send" value="Send SMS to Simpa" id="send"/></div>
+    </div>
+    <div id="kannel_output"></div>
+    <script type="text/javascript">
+        $('#send').click(function() {
+            var url = window.location.pathname.replace('receive_sms_from_user', 'receive_sms');
+            var text = escape($('#message').val());
+            $.post(url + '?user_phone_number=' + $('#user_phone_number').val() + '&app_phone_number=' + $('#app_phone_number').val() + '&message=' + text, function(data) {
+                $('#kannel_output').append(data);
+            });
+
+        });
+
+        $(document).everyTime(2000, function(i) {
+            var url = window.location.pathname.replace('receive_sms_from_user', 'pull_sms');
+            $.post(url , function(data) {
+                $('#kannel_output').append(data);
+            });
+        }, 0);
+    </script>
+</div>
+</body>
+</html>
