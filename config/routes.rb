@@ -7,6 +7,7 @@ Whackbackend::Application.routes.draw do
   get "complaint/create" => 'Complaint#create'
   get "complaint/status" => 'Complaint#status'
   get "complaint/close" => 'Complaint#close'
+  match '/complaint/:id', :to => 'Complaint#show', :as => :complaint
 
   get "log_out" => "sessions#destroy", :as => "log_out"
   get "log_in" => "sessions#new", :as => "log_in"

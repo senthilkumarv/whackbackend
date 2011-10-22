@@ -12,12 +12,13 @@
 
   <% @complaints.each do |c| %>
   <tr>
-    <td> <%= c.reference_id %>
-    <td> <%= c.mobile %>
-    <td> <%= c.name %>
-    <td> <%= c.location %>
-    <td> <%= c.complaint_type %>
-    <td> <%= c.status %>
+    <td> <%= c.reference_id %> </td>
+    <td> <%= c.mobile %> </td>
+    <td> <%= c.name %> </td>
+    <td> <%= c.location %> </td>
+    <td> <%= c.complaint_type %> </td>
+    <td> <%= c.status %> </td>
+    <td> <%= link_to 'Show', c %></td>
   </tr>
   <% end %>
   </table>

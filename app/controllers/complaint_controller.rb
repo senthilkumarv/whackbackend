@@ -15,6 +15,14 @@ class ComplaintController < ApplicationController
     end
   end
 
+  def show
+    @complaint = Complaint.find_by_id params["id"]
+
+    respond_to do |f|
+      f.html
+    end
+  end
+  
   def create
     complaint = complaint_from params
     if complaint.save
