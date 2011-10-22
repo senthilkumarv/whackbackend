@@ -10,12 +10,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111022080617) do
+ActiveRecord::Schema.define(:version => 20111022105031) do
 
   create_table "complaints", :force => true do |t|
     t.text     "location"
     t.text     "status"
-    t.text     "type"
+    t.text     "complaint_type"
     t.text     "name"
     t.text     "reference_id"
     t.text     "mobile"
