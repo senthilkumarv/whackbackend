@@ -10,6 +10,7 @@ Whackbackend::Application.routes.draw do
   get "complaint/close" => 'Complaint#close'
   get 'complaint/report' => 'Complaint#report'
   post "complaint/upload" => 'Complaint#upload_file'
+  get "open_data" => 'Complaint#feed'
   
   match '/complaint/:id', :to => 'Complaint#show', :as => :complaint
 

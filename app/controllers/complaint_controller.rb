@@ -92,6 +92,18 @@ class ComplaintController < ApplicationController
   def upload_file
     puts params
   end
+
+  def feed
+    complaints = Complaint.all
+    respond_to do |format|
+      format.json {
+        render :json => complaints.to_json
+      }
+      format.xml {
+        render :xml => complaints.to_xml
+      }
+    end
+  end
   
   def report
     @complaints_ws = Complaint.find_all_by_complaint_type('WS')
