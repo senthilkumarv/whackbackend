@@ -1,0 +1,66 @@
+<p>
+<h1>Complaint details about Water Leaks</h1>
+<table border="1">
+  <tr>
+    <th>Complaint ID</th>
+    <th>Location</th>
+    <th>Status</th>
+	<th>Photo URL</th>
+	<th>Response Time</th>
+  </tr>
+
+  <% @complaints_wl.each do |c| %>
+  <tr>
+    <td> <%= c.reference_id %> </td>
+    <td> <%= c.location %> </td>
+    <td> <%= c.status %> </td>
+    <td> <%= c.photo_url %></td>
+    <td> <%= c.response_time %></td>
+  </tr>
+  <% end %>
+  </table>
+</p>
+<p>
+<h1>Complaint details about Water Supply</h1>
+<table border="1">
+  <tr>
+    <th>Complaint ID</th>
+    <th>Location</th>
+    <th>Status</th>
+	<th>Photo URL</th>
+	<th>Response Time</th>
+  </tr>
+
+  <% @complaints_ws.each do |c| %>
+  <tr>
+    <td> <%= c.reference_id %> </td>
+    <td> <%= c.location %> </td>
+    <td> <%= c.status %> </td>
+    <td> <%= c.photo_url %></td>
+    <td> <%= c.response_time %></td>
+  </tr>
+  <% end %>
+  </table>
+</p>
+<p>
+<h1>Complaint details about Dumping waste in Water</h1>
+<table border="1">
+  <tr>
+    <th>Complaint ID</th>
+    <th>Location</th>
+    <th>Status</th>
+	<th>Photo URL</th>
+	<th>Response Time</th>
+  </tr>
+
+  <% @complaints_wd.each do |c| %>
+  <tr>
+    <td> <%= c.reference_id %> </td>
+    <td> <%= c.location %> </td>
+    <td> <%= c.status %> </td>
+    <td> <%= c.photo_url %></td>
+    <td> <%= c.response_time %></td>
+  </tr>
+  <% end %>
+  </table>
+</p>

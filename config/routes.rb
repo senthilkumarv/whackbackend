@@ -1,4 +1,5 @@
 Whackbackend::Application.routes.draw do
+
   get "sessions/new"
 
   get "users/new"
@@ -7,6 +8,9 @@ Whackbackend::Application.routes.draw do
   get "complaint/create" => 'Complaint#create'
   get "complaint/status" => 'Complaint#status'
   get "complaint/close" => 'Complaint#close'
+  get 'complaint/report' => 'Complaint#report'
+  post "complaint/upload" => 'Complaint#upload_file'
+  
   match '/complaint/:id', :to => 'Complaint#show', :as => :complaint
 
   get "log_out" => "sessions#destroy", :as => "log_out"

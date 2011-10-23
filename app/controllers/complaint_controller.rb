@@ -88,8 +88,20 @@ class ComplaintController < ApplicationController
 
     set_json_response response
   end
-
-
+  
+  def upload_file
+    puts params
+  end
+  
+  def report
+    @complaints_ws = Complaint.find_all_by_complaint_type('WS')
+    @complaints_wl = Complaint.find_all_by_complaint_type('WL')
+    @complaints_wd = Complaint.find_all_by_complaint_type('WD')
+    respond_to do |format|
+      format.html
+    end
+  end
+  
   private
   def json_from map
     map.to_json
@@ -100,9 +112,10 @@ class ComplaintController < ApplicationController
       format.json {
         render :json => response
       }
+      
     end
   end
-
+  
   def complaint_from params
     complaint = Complaint.new
     complaint.mobile = params["mobile"]
@@ -122,7 +135,7 @@ class ComplaintController < ApplicationController
     complaint.name = params["name"] if params["name"]
     complaint.complaint_type = params["type"]
     puts complaint.complaint_type
-    complaint.reference_id = DateTime.now.to_time.to_i.abs
+    complaint.reference_id = DateTime.now.updated_at.to_i.abs
     complaint.status = "Open"
     complaint
   end
