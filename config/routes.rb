@@ -11,7 +11,7 @@ Whackbackend::Application.routes.draw do
   get 'complaint/report' => 'Complaint#report'
   post "complaint/upload" => 'Complaint#upload_file'
   get "open_data" => 'Complaint#feed'
-  
+    post "complaint/upload/:id" => 'Complaint#upload_pic'
   match '/complaint/:id', :to => 'Complaint#show', :as => :complaint
 
   get "log_out" => "sessions#destroy", :as => "log_out"

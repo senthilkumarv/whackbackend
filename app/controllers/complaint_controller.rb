@@ -15,7 +15,17 @@ class ComplaintController < ApplicationController
       f.html
     end
   end
-
+  def upload_pic
+    puts 'Inside Upload Pic'
+    puts params
+    file = params['file']
+    fileName = params['id'] + '.png'
+    puts "#{file} #{fileName}"
+    directory = "/Users/senthilkumarv/data"
+    path = File.join(directory, fileName)
+    File.open(path, "wb") { |f| f.write(file.read) }
+    render :nothing => true
+  end
   def show
     @complaint = Complaint.find_by_id params["id"]
 
