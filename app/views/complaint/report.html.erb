@@ -6,7 +6,7 @@
     <th>Location</th>
     <th>Status</th>
 	<th>Photo URL</th>
-	<th>Response Time</th>
+	<th>Time taken to close the issue</th>
   </tr>
 
   <% @complaints_wl.each do |c| %>
@@ -15,7 +15,13 @@
     <td> <%= c.location %> </td>
     <td> <%= c.status %> </td>
     <td> <%= c.photo_url %></td>
-    <td> <%= c.response_time %></td>
+	<td>
+	<% if c.status == "Open" %>
+		Not Applicable
+	<% else %>
+    	<%= c.turn_around_time %>
+	<% end %>
+	</td>
   </tr>
   <% end %>
   </table>
@@ -28,7 +34,7 @@
     <th>Location</th>
     <th>Status</th>
 	<th>Photo URL</th>
-	<th>Response Time</th>
+	<th>Time taken to close the issue</th>
   </tr>
 
   <% @complaints_ws.each do |c| %>
@@ -37,7 +43,14 @@
     <td> <%= c.location %> </td>
     <td> <%= c.status %> </td>
     <td> <%= c.photo_url %></td>
-    <td> <%= c.response_time %></td>
+	<td>
+	<% if c.status == "Open" %>
+		Not Applicable
+	<% else %>
+    	<%= c.turn_around_time %>
+	<% end %>
+	</td>
+
   </tr>
   <% end %>
   </table>
@@ -50,7 +63,7 @@
     <th>Location</th>
     <th>Status</th>
 	<th>Photo URL</th>
-	<th>Response Time</th>
+	<th>Time taken to close the issue</th>
   </tr>
 
   <% @complaints_wd.each do |c| %>
@@ -59,7 +72,13 @@
     <td> <%= c.location %> </td>
     <td> <%= c.status %> </td>
     <td> <%= c.photo_url %></td>
-    <td> <%= c.response_time %></td>
+	<td>
+	<% if c.status == "Open" %>
+		Not Applicable
+	<% else %>
+    	<%= c.turn_around_time %>
+	<% end %>
+	</td>
   </tr>
   <% end %>
   </table>

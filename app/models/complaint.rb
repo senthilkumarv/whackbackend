@@ -1,7 +1,7 @@
 class Complaint < ActiveRecord::Base
   validates_presence_of :mobile, :location, :complaint_type
   
-  def response_time
+  def turn_around_time
 
     distance_in_hours   = (((updated_at - created_at).abs) / 3600).round
     distance_in_minutes = ((((updated_at - created_at).abs) % 3600) / 60).round
