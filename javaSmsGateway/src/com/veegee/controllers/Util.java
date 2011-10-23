@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 
 public class Util {
 
@@ -22,12 +23,12 @@ public class Util {
             if (statusCode == 200)
                 json = getJson(new StringBuilder(), response);
             else
-                doGet(Constants.KANNEL_SEND_URL + mobile + "&text=" + Constants.SYSTEM_ERROR_MESSAGE, mobile);
+                doGet(Constants.KANNEL_SEND_URL + mobile + "&text=" + URLEncoder.encode(Constants.SYSTEM_ERROR_MESSAGE), mobile);
 
 
             return json;
         } catch (Exception e) {
-            doGet(Constants.KANNEL_SEND_URL + mobile + "&text=" + Constants.SYSTEM_ERROR_MESSAGE, mobile);
+            doGet(Constants.KANNEL_SEND_URL + mobile + "&text=" + URLEncoder.encode(Constants.SYSTEM_ERROR_MESSAGE), mobile);
 
         }
         return null;
@@ -43,7 +44,7 @@ public class Util {
 
             return response;
         } catch (Exception e) {
-            doGet(Constants.KANNEL_SEND_URL + mobile + "&text=" + Constants.SYSTEM_ERROR_MESSAGE, mobile);
+            doGet(Constants.KANNEL_SEND_URL + mobile + "&text=" + URLEncoder.encode(Constants.SYSTEM_ERROR_MESSAGE), mobile);
 
         }
         return null;

@@ -1,6 +1,8 @@
 package com.veegee.controllers;
 
-public class StatusMessage {
+import java.net.URLEncoder;
+
+public class StatusMessage implements Message {
 
     private String mobile;
     private String complaint_id;
@@ -13,15 +15,28 @@ public class StatusMessage {
 
         try {
             type = smsValues[0];
-            complaint_id = smsValues[1];
+            complaint_id = smsValues.length >1 ? smsValues[1]:null;
         } catch (Exception e) {
-            Util.doGetWithParseJsonResponse(Constants.KANNEL_SEND_URL + mobile + "&text=" + Constants.USER_ERROR_MESSAGE, mobile);
+            Util.doGetWithParseJsonResponse(Constants.KANNEL_SEND_URL + mobile + "&text=" + URLEncoder.encode(Constants.USER_STATUS_ERROR_MESSAGE), mobile);
         }
 
     }
 
     public String getUrl() {
-        return Constants.STATUS_URL + "?mobile=" + mobile + "&reference_id=" + complaint_id;
+        String referenceIdString = complaint_id!=null ?"&reference_id=" + complaint_id:"";
+        return Constants.STATUS_URL + "?mobile=" + mobile + referenceIdString;
+    }
+
+    public boolean sendToKannel(JsonObject jsonObject) {
+
+        String smsStatusString;
+        if (jsonObject.getReference_id().equals("NA"))
+            smsStatusString = "Sorry, request not processed. Invalid reference Id";
+        else
+            smsStatusString = String.format(Constants.SMS_STATUS_RESPONSE, jsonObject.getReference_id(), jsonObject.getStatus().toUpperCase());
+
+        return Util.doGet(Constants.KANNEL_SEND_URL + mobile + "&text=" + URLEncoder.encode(smsStatusString), mobile) != null;
+
     }
 
 

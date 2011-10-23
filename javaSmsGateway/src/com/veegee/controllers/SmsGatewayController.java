@@ -1,22 +1,11 @@
 package com.veegee.controllers;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.veegee.db.BaseRepository;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.io.*;
-import java.lang.reflect.Array;
-import java.net.URL;
-import java.util.HashMap;
 
 @Controller
 public class SmsGatewayController {
@@ -26,24 +15,33 @@ public class SmsGatewayController {
     private BaseRepository baseRepository;
 
     @RequestMapping(value = "/receive/{mobile}/{text}/{timestamp}")
-    public String receiveSms(@PathVariable String mobile, @PathVariable String text, @PathVariable String timestamp) {
+    public void receiveSms(@PathVariable String mobile, @PathVariable String text, @PathVariable String timestamp) {
 
-        String url;
+        Message message = null;
+        if(Constants.currentIdVal.equals(timestamp)) return;
+        Constants.currentIdVal=timestamp;
         String type = text.split(Constants.SEPARATOR)[0];
-        if (type.equals("status")) {
-            url = new StatusMessage(text, mobile, timestamp).getUrl();
-        } else if (type.equals("close")) {
-            url = new CloseMessage(text, mobile, timestamp).getUrl();
-        } else {
-            url = new SmsMessage(text, mobile, timestamp).getUrl();
+        if (type.equalsIgnoreCase("status"))
+            message = new StatusMessage(text, mobile, timestamp);
+        else if (type.equalsIgnoreCase("close"))
+            message = new CloseMessage(text, mobile, timestamp);
+        else if (type.equalsIgnoreCase("WD") || type.equalsIgnoreCase("WL") || type.equalsIgnoreCase("WS"))
+            message = new SmsMessage(text, mobile, timestamp);
+        else {
+            new InformationMessage(mobile, timestamp).sendToKannel(null);
+            return;
 
         }
+
+
+        String url = message.getUrl();
 
         String jsonResponse = Util.doGetWithParseJsonResponse(url, "");
 
 
         JsonObject jsonObject = new Gson().fromJson(jsonResponse, JsonObject.class);
-        return "WEB-INF/views/empty.jsp";
+        message.sendToKannel(jsonObject);
+        return;
 
 
     }

@@ -1,6 +1,8 @@
 package com.veegee.controllers;
 
-public class CloseMessage {
+import java.net.URLEncoder;
+
+public class CloseMessage implements Message {
 
     private String mobile;
     private String complaint_id;
@@ -15,13 +17,25 @@ public class CloseMessage {
             type = smsValues[0];
             complaint_id = smsValues[1];
         } catch (Exception e) {
-            Util.doGet(Constants.KANNEL_SEND_URL + mobile + "&text=" + Constants.USER_ERROR_MESSAGE, mobile);
+            Util.doGet(Constants.KANNEL_SEND_URL + mobile + "&text=" + URLEncoder.encode(Constants.USER_CLOSE_ERROR_MESSAGE), mobile);
         }
 
     }
 
     public String getUrl() {
         return Constants.CLOSE_URL + "?mobile=" + mobile + "&reference_id=" + complaint_id;
+    }
+
+
+    public boolean sendToKannel(JsonObject jsonObject) {
+        String smsCloseString;
+        if (jsonObject.getReference_id().equals("NA"))
+            smsCloseString = "Sorry, request not processed. Invalid reference Id";
+        else
+            smsCloseString = URLEncoder.encode(Constants.SMS_CLOSE_RESPONSE);
+
+        return Util.doGet(Constants.KANNEL_SEND_URL + mobile + "&text=" + smsCloseString, mobile) != null;
+
     }
 
 
