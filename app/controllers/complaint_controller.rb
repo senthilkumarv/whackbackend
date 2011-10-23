@@ -116,6 +116,8 @@ class ComplaintController < ApplicationController
       loc = GoogleGeocoder.do_reverse_geocode([params["lat"], params["lng"]])
       complaint.location = loc.full_address
     end
+    complaint.photo_url = "No Photo Attached"
+    complaint.photo_url = params["photo_url"] if params["photo_url"]
     complaint.name = "Anonymous"
     complaint.name = params["name"] if params["name"]
     complaint.complaint_type = params["type"]

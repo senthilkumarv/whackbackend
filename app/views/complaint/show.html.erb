@@ -1,26 +1,51 @@
-<table>
+<table border="1">
 <tr>
+  <td>Complaint ID</td>
   <td> <%= @complaint.reference_id %> </td>
 </tr>
 <tr>
+  <td>Mobile</td>
   <td> <%= @complaint.mobile %> </td>
 </tr>
 <tr>
+  <td>Location</td>
   <td> <%= @complaint.location %> </td>
 </tr>
 <tr>
+  <td>Complaint Type</td>
   <td> <%= @complaint.complaint_type %> </td>
 <tr>
 </tr>
+  <td>Status</td>
   <td> <%= @complaint.status %> </td>
 </tr>
 </tr>
+  <td>Latitude</td>
   <td> <%= @complaint.latitude %> </td>
 </tr>
 </tr>
+  <td>Longitude</td>
   <td> <%= @complaint.longitude %> </td>
 </tr>
 </tr>
-  <td> <%= @complaint.photo_url %> </td>
+  <td>Photo URL</td>
+  <td>
+	<% if @complaint.photo_url == nil || @complaint.photo_url == "No Photo Attached" %>
+		No Photo Attached
+	<% else %>
+		<a href='<%= @complaint.photo_url %>' />
+	<% end %>
+  </td>
 </tr>
+</tr>
+  <td>
+	<% if @complaint.status != "Closed" %>
+  		<%= link_to 'Close', "close?reference_id=#{@complaint.reference_id}&mobile=#{@complaint.mobile}" %>
+	<% end %>
+  </td>
+  <td> 
+	<%= link_to 'Back', 'index' %> 
+  </td>
+</tr>
+
 </table>
