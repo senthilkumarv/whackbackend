@@ -1,4 +1,5 @@
 require 'uuid'
+include Geokit::Geocoders
 
 class ComplaintController < ApplicationController
   SUCCESSFULLY_REGISTERED = "Complaint was successfully registered"
@@ -105,12 +106,21 @@ class ComplaintController < ApplicationController
   def complaint_from params
     complaint = Complaint.new
     complaint.mobile = params["mobile"]
-    complaint.location = params["location"]
+    if params["location"] 
+      complaint.location = params["location"] 
+      complaint.latitude = GoogleGeocoder.do_geocode(complaint.location).lat
+      complaint.longitude  = GoogleGeocoder.do_geocode(complaint.location).lng
+    elsif(params["lat"] && params["lng"])
+      complaint.latitude =  params["lat"]
+      complaint.longitude = params["lng"]
+      loc = GoogleGeocoder.do_reverse_geocode([params["lat"], params["lng"]])
+      complaint.location = loc.full_address
+    end
     complaint.name = "Anonymous"
     complaint.name = params["name"] if params["name"]
     complaint.complaint_type = params["type"]
     puts complaint.complaint_type
-    complaint.reference_id = UUID.new.generate.gsub("-", "")[1..10].upcase!
+    complaint.reference_id = DateTime.now.to_time.to_i.abs
     complaint.status = "Open"
     complaint
   end

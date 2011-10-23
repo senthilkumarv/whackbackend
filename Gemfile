@@ -9,6 +9,7 @@ gem 'sqlite3'
 gem 'uuid'
 gem 'ruby-debug'
 gem 'json'
+gem 'geokit'
 
 # Use unicorn as the web server
 # gem 'unicorn'

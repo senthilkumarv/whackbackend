@@ -21,6 +21,9 @@ ActiveRecord::Schema.define(:version => 20111022194750) do
     t.text     "mobile"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.text     "photo_url"
   end
 
   create_table "users", :force => true do |t|
