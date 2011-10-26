@@ -1,6 +1,6 @@
 module RedirectHelper
   def redirect_to_complaints
-    redirect_to :action => 'index', :controller => 'complaint'
+    redirect_to :action => 'index', :controller => 'complaints'
   end
 
   def redirect_to_login

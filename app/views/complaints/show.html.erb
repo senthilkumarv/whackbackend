@@ -39,9 +39,7 @@
 </tr>
 </tr>
   <td>
-	<% if @complaint.status != "Closed" %>
-  		<%= link_to 'Close', "close?reference_id=#{@complaint.reference_id}&mobile=#{@complaint.mobile}" %>
-	<% end %>
+    <%= button_to "Close", @complaint, :method => :delete, :action => 'destroy'%>
   </td>
   <td> 
 	<%= link_to 'Back', 'index' %> 

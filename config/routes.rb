@@ -8,8 +8,7 @@ Whackbackend::Application.routes.draw do
 
 
   resources :complaints
-  #post "complaint/new" => 'Complaint#create'
-
+  post "complaints/close"
   
   # get "complaint/index"
   # get "complaint/status" => 'Complaint#status'

@@ -2,6 +2,8 @@ require 'uuid'
 include Geokit::Geocoders
 
 class ComplaintsController < ApplicationController
+  include RedirectHelper
+
   SUCCESSFULLY_REGISTERED = "Complaint was successfully registered"
   MATCH_NOT_FOUND = "Could not find complaint matching the input" 
   SUCCESSFULLY_RESOLVED = "Complaint marked as resolved"
@@ -41,6 +43,26 @@ class ComplaintsController < ApplicationController
 
     respond_to do |f|
       f.html
+    end
+  end
+
+  def destroy
+    complaint = Complaint.find(params[:id])
+    complaint.status = 'Closed'
+    complaint.save
+    respond_to do |format|
+      format.html do
+        flash[:message] = SUCCESSFULLY_RESOLVED
+        redirect_to_complaints
+      end
+      
+      format.json do
+        render :json => json_from(:response => 200,
+                                  :message => SUCCESSFULLY_RESOLVED,
+                                  :status => complaint.status,
+                                  :reference_id => complaint.reference_id)
+        
+      end
     end
   end
   
