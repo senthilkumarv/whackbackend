@@ -9,10 +9,10 @@ Whackbackend::Application.routes.draw do
 
   resources :complaints
   post "complaints/close"
+  get "complaint/status" => 'Complaint#status'
+  get "complaint/close" => 'Complaint#close'
   
   # get "complaint/index"
-  # get "complaint/status" => 'Complaint#status'
-  # get "complaint/close" => 'Complaint#close'
   # get 'complaint/report' => 'Complaint#report'
   # post "complaint/upload" => 'Complaint#upload_file'
   # get "open_data" => 'Complaint#feed'

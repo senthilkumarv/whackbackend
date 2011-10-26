@@ -13,11 +13,22 @@ class ComplaintsController < ApplicationController
   
   def index
     @complaints = Complaint.all
-    respond_to do |f|
-      f.html
+    respond_to do |format|
+      format.html
+      format.json do
+        render :json => remove_phone_numbers(@complaints).to_json
+      end
+
+      format.xml do
+        render :xml => remove_phone_numbers(@complaints).to_xml
+      end
+
+      format.rss do
+        render :layout => false
+      end
     end
   end
-
+  
   def new
     @complaint = Complaint.new
 
@@ -41,8 +52,8 @@ class ComplaintsController < ApplicationController
   def show
     @complaint = Complaint.find_by_id params["id"]
 
-    respond_to do |f|
-      f.html
+    respond_to do |format|
+      format.html
     end
   end
 
@@ -118,6 +129,8 @@ class ComplaintsController < ApplicationController
                            :status => "NA",
                            :reference_id => "NA")
     end
+
+    set_json_response response
   end
   
   def status
@@ -143,18 +156,6 @@ class ComplaintsController < ApplicationController
   
   def upload_file
     puts params
-  end
-
-  def feed
-    complaints = Complaint.all
-    respond_to do |format|
-      format.json {
-        render :json => complaints.to_json
-      }
-      format.xml {
-        render :xml => complaints.to_xml
-      }
-    end
   end
   
   def report
@@ -194,5 +195,11 @@ class ComplaintsController < ApplicationController
     complaint.reference_id = DateTime.now.to_i.abs
     complaint.status = "Open"
     complaint
+  end
+
+  def remove_phone_numbers complaints
+    complaints.each do |c|
+      c.mobile = "NA"
+    end
   end
 end
