@@ -1,25 +1,25 @@
 Whackbackend::Application.routes.draw do
-
-  get "sessions/new"
-
-  get "users/new"
-
-  get "complaint/index"
-  get "complaint/create" => 'Complaint#create'
-  get "complaint/status" => 'Complaint#status'
-  get "complaint/close" => 'Complaint#close'
-  get 'complaint/report' => 'Complaint#report'
-  post "complaint/upload" => 'Complaint#upload_file'
-  get "open_data" => 'Complaint#feed'
-    post "complaint/upload/:id" => 'Complaint#upload_pic'
-  match '/complaint/:id', :to => 'Complaint#show', :as => :complaint
-
-  get "log_out" => "sessions#destroy", :as => "log_out"
-  get "log_in" => "sessions#new", :as => "log_in"
-  get "sign_up" => "users#new", :as => "sign_up"
-  root :to => "users#new"
+  root :to => "Complaints#new"
   resources :users
   resources :sessions
+  get "login" => "sessions#new"
+  get "logout" => "sessions#destroy"
+  get "signup" => "users#new"
+
+
+  resources :complaints
+  #post "complaint/new" => 'Complaint#create'
+
+  
+  # get "complaint/index"
+  # get "complaint/status" => 'Complaint#status'
+  # get "complaint/close" => 'Complaint#close'
+  # get 'complaint/report' => 'Complaint#report'
+  # post "complaint/upload" => 'Complaint#upload_file'
+  # get "open_data" => 'Complaint#feed'
+  #   post "complaint/upload/:id" => 'Complaint#upload_pic'
+  # match '/complaint/:id', :to => 'Complaint#show', :as => :complaint
+
 
 
   # The priority is based upon order of creation:

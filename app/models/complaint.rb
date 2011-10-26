@@ -11,4 +11,13 @@ class Complaint < ActiveRecord::Base
     difference_in_words << "#{distance_in_hours} #{distance_in_hours > 1 ? 'hours' : 'hour' } and " if distance_in_hours > 0
     difference_in_words << "#{distance_in_minutes} #{distance_in_minutes == 1 ? 'minute' : 'minutes' }"
   end
+
+  
+  def complaint_types
+    {
+      "No Water Supply" => "WS",
+      "Water Leak" => "WL",
+      "Dumping of the waste in Lake" => "WD"
+    }
+  end
 end

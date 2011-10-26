@@ -1,7 +1,7 @@
 require 'uuid'
 include Geokit::Geocoders
 
-class ComplaintController < ApplicationController
+class ComplaintsController < ApplicationController
   SUCCESSFULLY_REGISTERED = "Complaint was successfully registered"
   MATCH_NOT_FOUND = "Could not find complaint matching the input" 
   SUCCESSFULLY_RESOLVED = "Complaint marked as resolved"
@@ -15,6 +15,15 @@ class ComplaintController < ApplicationController
       f.html
     end
   end
+
+  def new
+    @complaint = Complaint.new
+
+    respond_to do |format|
+      format.html
+    end
+  end
+  
   def upload_pic
     puts 'Inside Upload Pic'
     puts params
@@ -26,6 +35,7 @@ class ComplaintController < ApplicationController
     File.open(path, "wb") { |f| f.write(file.read) }
     render :nothing => true
   end
+
   def show
     @complaint = Complaint.find_by_id params["id"]
 
@@ -35,20 +45,32 @@ class ComplaintController < ApplicationController
   end
   
   def create
-    complaint = complaint_from params
-    if complaint.save
-      response = json_from(:response => 201,
-                           :reference_id => complaint.reference_id,
-                           :message => SUCCESSFULLY_REGISTERED,
-                           :status => complaint.status)
-    else
-      response = json_from(:response => 507,
-                           :reference_id => "",
-                           :status => "NA",
-                           :message => COULDNOT_REGISTER_COMPLAINT)
-    end
+    @complaint = complaint_from params
+    respond_to do |format|
+      if @complaint.save
+        format.html do
+          redirect_to @complaint, :notice => "Complaint regsitered successfully"
+        end
 
-    set_json_response response
+        format.json do
+          render :json => json_from(:response => 200,
+                                    :reference_id => @complaint.reference_id,
+                                    :message => SUCCESSFULLY_REGISTERED,
+                                    :status => @complaint.status)
+        end
+      else
+        format.html do
+          render :action => "new"
+        end
+
+        format.json do
+          render :json => json_from(:response => 507,
+                                    :reference_id => "",
+                                    :status => "NA",
+                                    :message => COULDNOT_REGISTER_COMPLAINT)
+        end
+      end
+    end
   end
 
   def close
@@ -74,8 +96,6 @@ class ComplaintController < ApplicationController
                            :status => "NA",
                            :reference_id => "NA")
     end
-
-    set_json_response response
   end
   
   def status
@@ -139,25 +159,17 @@ class ComplaintController < ApplicationController
   end
   
   def complaint_from params
-    complaint = Complaint.new
-    complaint.mobile = params["mobile"]
-    if params["location"] 
-      complaint.location = params["location"] 
+    complaint = Complaint.new params[:complaint]
+    if complaint.location 
       complaint.latitude = GoogleGeocoder.do_geocode(complaint.location).lat
       complaint.longitude  = GoogleGeocoder.do_geocode(complaint.location).lng
-    elsif(params["lat"] && params["lng"])
-      complaint.latitude =  params["lat"]
-      complaint.longitude = params["lng"]
+    elsif(complaint.latitude && complaint.longitude)
       loc = GoogleGeocoder.do_reverse_geocode([params["lat"], params["lng"]])
       complaint.location = loc.full_address
     end
-    complaint.photo_url = "No Photo Attached"
-    complaint.photo_url = params["photo_url"] if params["photo_url"]
-    complaint.name = "Anonymous"
-    complaint.name = params["name"] if params["name"]
-    complaint.complaint_type = params["type"]
-    puts complaint.complaint_type
-    complaint.reference_id = DateTime.now.updated_at.to_i.abs
+    complaint.photo_url = "No Photo Attached" unless complaint.photo_url
+    complaint.name = "Anonymous" unless complaint.name
+    complaint.reference_id = DateTime.now.to_i.abs
     complaint.status = "Open"
     complaint
   end
