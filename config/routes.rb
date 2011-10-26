@@ -7,10 +7,9 @@ Whackbackend::Application.routes.draw do
   get "signup" => "users#new"
 
 
-  resources :complaints
   post "complaints/close"
-  get "complaint/status" => 'Complaint#status'
-  get "complaint/close" => 'Complaint#close'
+  get "complaints/status"
+  resources :complaints
   
   # get "complaint/index"
   # get 'complaint/report' => 'Complaint#report'

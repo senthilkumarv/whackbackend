@@ -1,42 +1,45 @@
 package com.veegee.controllers;
 
-import com.google.gson.Gson;
-import com.veegee.db.BaseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.google.gson.Gson;
 
 @Controller
 public class SmsGatewayController {
 
 
-    @Autowired
-    private BaseRepository baseRepository;
-
     @RequestMapping(value = "/receive/{mobile}/{text}/{timestamp}")
     public void receiveSms(@PathVariable String mobile, @PathVariable String text, @PathVariable String timestamp) {
 
         Message message = null;
+        String url;
+        String jsonResponse;
+
         if(Constants.currentIdVal.equals(timestamp)) return;
         Constants.currentIdVal=timestamp;
         String type = text.split(Constants.SEPARATOR)[0];
         if (type.equalsIgnoreCase("status"))
             message = new StatusMessage(text, mobile, timestamp);
-        else if (type.equalsIgnoreCase("close"))
-            message = new CloseMessage(text, mobile, timestamp);
-        else if (type.equalsIgnoreCase("WD") || type.equalsIgnoreCase("WL") || type.equalsIgnoreCase("WS"))
-            message = new SmsMessage(text, mobile, timestamp);
+        else if (type.equalsIgnoreCase("close")) {
+        	message = new CloseMessage(text, mobile, timestamp);
+        	doPostRequest(message, mobile);
+			return;
+        }
+        else if (type.equalsIgnoreCase("WD") || type.equalsIgnoreCase("WL") || type.equalsIgnoreCase("WS")) {
+        	message = new SmsMessage(text, mobile, timestamp);
+        	doPostRequest(message, mobile);
+        	return;
+        }
         else {
             new InformationMessage(mobile, timestamp).sendToKannel(null);
             return;
 
         }
 
-
-        String url = message.getUrl();
-
-        String jsonResponse = Util.doGetWithParseJsonResponse(url, "");
+        url = message.getUrl();
+        jsonResponse = Util.doGetWithParseJsonResponse(url, "");
 
 
         JsonObject jsonObject = new Gson().fromJson(jsonResponse, JsonObject.class);
@@ -45,6 +48,15 @@ public class SmsGatewayController {
 
 
     }
+
+	private void doPostRequest(Message message, String mobile) {
+		String url;
+		url = message.getUrl();
+		String data = message.data();
+		String response = Util.doPost(url, data, mobile);
+		message.sendToKannel(new Gson().fromJson(response, JsonObject.class));
+		return;
+	}
 
 
 //     public HttpStatus doPostToParentApp(smsMessage smsMessage, String mobile) {

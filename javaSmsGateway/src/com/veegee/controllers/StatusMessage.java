@@ -39,6 +39,10 @@ public class StatusMessage implements Message {
 
     }
 
+	public String data() {
+		return "";
+	}
+
 
 }
 

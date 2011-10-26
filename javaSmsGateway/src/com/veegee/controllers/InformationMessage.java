@@ -26,6 +26,10 @@ public class InformationMessage implements Message {
 
     }
 
+	public String data() {
+		return "";
+	}
+
 
 }
 

@@ -3,8 +3,7 @@ package com.veegee.controllers;
 public class Constants {
 
     public static final String SEPARATOR = "\\+";
-    public static final String PARENT_SERVER_URL = "http://172.16.1.44:3000/complaint/create.json/";
-    public static final String CREATE_URL = "http://172.16.1.44:3000/complaint/create.json/";
+    public static final String CREATE_URL = "http://172.16.1.44:3000/complaints.json";
     public static final String oururl = "http://localhost:8080/vgtest/our";
     public static final String USER_COMPLAINT_ERROR_MESSAGE = "Sorry the format of the SMS sent is incorrect.Please use the format {code}+{location}+{yourname}";
     public static final String USER_STATUS_ERROR_MESSAGE = "Sorry the format of the SMS sent is incorrect.Please use the format STATUS+{complaint-id}";
@@ -19,6 +18,6 @@ public class Constants {
     public static String currentIdVal="";
 
 
-    public static final String STATUS_URL = "http://172.16.1.44:3000/complaint/status.json/";
-    public static final String CLOSE_URL = "http://172.16.1.44:3000/complaint/close.json/";
+    public static final String STATUS_URL = "http://172.16.1.44:3000/complaints/status.json";
+    public static final String CLOSE_URL = "http://172.16.1.44:3000/complaints/close.json";
 }

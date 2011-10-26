@@ -2,6 +2,9 @@ package com.veegee.controllers;
 
 import java.net.URLEncoder;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class SmsMessage implements Message{
 
     private String name;
@@ -27,7 +30,7 @@ public class SmsMessage implements Message{
     }
 
     public String getUrl() {
-        return Constants.CREATE_URL + "?mobile=" + mobile + "&location=" + location + "&name=" + name + "&type=" + type;
+        return Constants.CREATE_URL;
     }
 
     public boolean sendToKannel(JsonObject jsonObject) {
@@ -36,6 +39,12 @@ public class SmsMessage implements Message{
 
     }
 
+	public String data() {
+		return "{complaint:{location:" + location + ",mobile:" + mobile + 
+				",complaint_type:" + type +",name:" + name + "}}";
+	}
 
+	public static void main(String[] args) {
+		System.out.println(new SmsMessage("something + foo + bart", "9866", "564646").data());
+	}
 }
-

@@ -23,7 +23,7 @@ public class CloseMessage implements Message {
     }
 
     public String getUrl() {
-        return Constants.CLOSE_URL + "?mobile=" + mobile + "&reference_id=" + complaint_id;
+        return Constants.CLOSE_URL;
     }
 
 
@@ -37,6 +37,10 @@ public class CloseMessage implements Message {
         return Util.doGet(Constants.KANNEL_SEND_URL + mobile + "&text=" + smsCloseString, mobile) != null;
 
     }
+
+	public String data() {
+		return "{reference_id:" + complaint_id + ",mobile:" + mobile + "}";
+	}
 
 
 }
