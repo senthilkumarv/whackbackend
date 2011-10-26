@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   def encrypt_password
     if password.present?
       self.password_salt = UUID.new.generate.gsub("-", "")[1..10]
-      self.password_hash = self.encrypt password, password_salt
+      self.password_hash = User.encrypt password, password_salt
     end
   end
 end
