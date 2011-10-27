@@ -62,10 +62,7 @@ class ComplaintsController < ApplicationController
     complaint.status = 'Closed'
     complaint.save
     respond_to do |format|
-      format.html do
-        flash[:message] = SUCCESSFULLY_RESOLVED
-        redirect_to_complaints
-      end
+      format.html
       
       format.json do
         render :json => json_from(:response => 200,
@@ -81,10 +78,7 @@ class ComplaintsController < ApplicationController
     @complaint = complaint_from params
     respond_to do |format|
       if @complaint.save
-        format.html do
-          redirect_to @complaint, :notice => "Complaint regsitered successfully"
-        end
-
+        format.html 
         format.json do
           render :json => json_from(:response => 200,
                                     :reference_id => @complaint.reference_id,
@@ -92,10 +86,7 @@ class ComplaintsController < ApplicationController
                                     :status => @complaint.status)
         end
       else
-        format.html do
-          render :action => "new"
-        end
-
+        format.html render :action => "new"
         format.json do
           render :json => json_from(:response => 507,
                                     :reference_id => "",
