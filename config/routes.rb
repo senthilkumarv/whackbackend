@@ -9,6 +9,7 @@ Whackbackend::Application.routes.draw do
 
   post "complaints/close"
   get "complaints/status"
+  post "complaints/upload/:id" => 'Complaint#upload_pic'
   resources :complaints
   
   # get "complaint/index"
