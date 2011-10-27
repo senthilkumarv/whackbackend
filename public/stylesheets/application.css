@@ -2,7 +2,6 @@ body {
 	background-color: #eeeeee;
 	font-family: sans-serif;
     font-size: 12px;
-	width: 80%;
 
 }
 
@@ -39,12 +38,27 @@ body form .field input {
 
 
 body form .actions input {
-  background: url(/images/round-btn.gif) top left no-repeat;
+  background: url(/images/round-btn.gif) top left;
   width: 150px;
   height: 32px;
   border: 0px;
   font-size: 120%;
   color: #666;
+}
+
+body form p input {
+    background: none repeat scroll 0 0 #FBFBFB;
+    border: 1px solid #E5E5E5;
+    box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
+    font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
+    font-size: 24px;
+    font-weight: 200;
+    margin-bottom: 16px;
+    margin-right: 6px;
+    margin-top: 2px;
+    outline: medium none;
+    padding: 3px;
+    width: 27%;
 }
 
 
@@ -71,6 +85,20 @@ body form select {
     vertical-align: middle;
 }
 
+
+#header #top_links_container {
+  float: right;
+  width: auto;
+  background-color: #FFF;
+  padding: 10px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  margin-right: 30px;
+  margin-top: -10px;
+}
+
+
+
 #error_explanation {
   color: #333;
   margin-bottom: 0;
@@ -89,16 +117,21 @@ body form select {
 
 table, td, th
 {
-	border:1px solid green;
+	border:1px solid #777777;
 }
 th
 {
-	background-color:green;
-	color:white;
+	background-color:#777777;
+	color:#ffffff;
 }
 
+table td.key
+{
+	background-color:#777777;
+	color:#ffffff;
+}
 a {
-  color: #2276bb;
+  color: #555555;
   text-decoration: none;
   font-weight: bold;
 }

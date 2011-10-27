@@ -1,36 +1,39 @@
+
+<br />
+<form id="show">
 <table border="1">
 <tr>
-  <td>Complaint ID</td>
+  <td class="key">Complaint ID</td>
   <td> <%= @complaint.reference_id %> </td>
 </tr>
 <% if current_user %>
 <tr>
-  <td>Mobile</td>
+  <td class="key">Mobile</td>
   <td> <%= @complaint.mobile %> </td>
 </tr>
 <% end %>
 <tr>
-  <td>Location</td>
+  <td class="key">Location</td>
   <td> <%= @complaint.location %> </td>
 </tr>
 <tr>
-  <td>Complaint Type</td>
+  <td class="key">Complaint Type</td>
   <td> <%= @complaint.complaint_type %> </td>
 </tr>
 <tr>
-  <td>Status</td>
+  <td class="key">Status</td>
   <td> <%= @complaint.status %> </td>
 </tr>
 <tr>
-  <td>Latitude</td>
+  <td class="key">Latitude</td>
   <td> <%= @complaint.latitude %> </td>
 </tr>
 <tr>
-  <td>Longitude</td>
+  <td class="key">Longitude</td>
   <td> <%= @complaint.longitude %> </td>
 </tr>
 <tr>
-  <td>Photo URL</td>
+  <td class="key">Photo URL</td>
   <td>
 	<% if @complaint.photo_url == nil || @complaint.photo_url == "No Photo Attached" %>
 		No Photo Attached
@@ -40,7 +43,9 @@
   </td>
 </tr>
 </table>
+<br />
 <% if current_user %>
 <%= button_to "Close", @complaint, :method => :delete, :action => 'destroy'%>
 <% end %>
+</form>
 <%= link_to 'Back', complaints_path %> 
