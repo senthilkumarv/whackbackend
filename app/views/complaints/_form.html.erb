@@ -1,8 +1,8 @@
+<h1>Register a new complaint</h1>
 <%= form_for(@complaint) do |f| %>
   <% if @complaint.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@complaint.errors.count, "error") %> prohibited this complaint from being saved:</h2>
-
       <ul>
       <% @complaint.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -10,7 +10,7 @@
       </ul>
     </div>
   <% end %>
-
+<br />
   <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
@@ -26,7 +26,7 @@
   <div class="field">
     <%= f.label :complaint_type %><br />
     <%= f.select :complaint_type, @complaint.complaint_types  %>
-  </div>
+  </div><br />
   <div class="actions">
     <%= f.submit %>
   </div>
