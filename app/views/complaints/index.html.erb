@@ -3,25 +3,29 @@
 <table border="1">
   <tr>
     <th>Complaint ID</th>
-    <th>Mobile</th>
+    <% if current_user %>
+      <th>Mobile</th>
+    <% end %>
     <th>Name</th>
     <th>Location</th>
     <th>Type</th>
     <th>Status</th>
     <th>Latitude</th>
     <th>Longitude</th>
-	<th>Photo URL</th>
+    <th>Photo URL</th>
   </tr>
 
   <% @complaints.each do |c| %>
   <tr>
     <td> <%= c.reference_id %> </td>
-    <td> <%= c.mobile %> </td>
+    <% if current_user %>
+      <td> <%= c.mobile %> </td>
+    <% end %>
     <td> <%= c.name %> </td>
     <td> <%= c.location %> </td>
     <td> <%= c.complaint_type %> </td>
     <td> <%= c.status %> </td>
-  	<td> <%= c.latitude %></td>
+    <td> <%= c.latitude %></td>
     <td> <%= c.longitude %></td>
     <td> <%= c.photo_url %></td>
     <td> <%= link_to 'Show', c %></td>
