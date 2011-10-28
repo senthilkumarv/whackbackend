@@ -45,7 +45,7 @@
 </table>
 <br />
 <% if current_user %>
-<%= button_to "Close", @complaint, :method => :delete, :action => 'destroy'%>
+<%= link_to "Close", @complaint, :method => :delete, :action => 'destroy'%>
 <% end %>
 </form>
 <%= link_to 'Back', complaints_path %> 
