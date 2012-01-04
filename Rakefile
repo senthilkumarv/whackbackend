@@ -3,5 +3,10 @@
 
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
+require 'rspec'
 
 Whackbackend::Application.load_tasks
+
+Spec::Rake::SpecTask.new(:spec) do |t|
+  t.rspec_opts = %w[--color]
+end
