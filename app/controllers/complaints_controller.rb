@@ -38,24 +38,23 @@ class ComplaintsController < ApplicationController
   end
   
   def upload_pic
-    puts 'Inside Upload Pic'
     puts params
     file = params['file']
     fileName = params['id'] + '.png'
     puts "#{file} #{fileName}"
-    directory = "/Users/senthilkumarv/data"
+    directory = File.join(Rails.root, "data")
     path = File.join(directory, fileName)
     File.open(path, "wb") { |f| f.write(file.read) }
     render :nothing => true
   end
 
-  def show
-    @complaint = Complaint.find_by_id params["id"]
+  # def show
+  #   @complaint = Complaint.find_by_id params["id"]
 
-    respond_to do |format|
-      format.html
-    end
-  end
+  #   respond_to do |format|
+  #     format.html
+  #   end
+  # end
 
   def destroy
     complaint = Complaint.find(params[:id])
@@ -77,17 +76,13 @@ class ComplaintsController < ApplicationController
   def create
     @complaint = complaint_from params
     respond_to do |format|
-      if @complaint.save
-        format.html 
-        format.json do
+      format.json do
+        if @complaint.save
           render :json => json_from(:response => 200,
                                     :reference_id => @complaint.reference_id,
                                     :message => SUCCESSFULLY_REGISTERED,
                                     :status => @complaint.status)
-        end
-      else
-        format.html render :action => "new"
-        format.json do
+        else
           render :json => json_from(:response => 507,
                                     :reference_id => "",
                                     :status => "NA",
@@ -124,25 +119,18 @@ class ComplaintsController < ApplicationController
     set_json_response response
   end
   
-  def status
-    if params["reference_id"]
-      complaint = Complaint.find_by_reference_id params["reference_id"]
-    elsif params["mobile"]
-      complaint = Complaint.find_all_by_mobile(params["mobile"]).last
+  def show
+    if params["id"]
+      complaint = Complaint.find_by_reference_id params["id"]
+    # elsif params["mobile"]
+    #   complaint = Complaint.find_all_by_mobile(params["mobile"]).last
     end
     if complaint
-      response = json_from(:response => 200,
-                           :status => complaint.status,
-                           :message => MATCH_FOUND,
-                           :reference_id => complaint.reference_id)
+      set_json_response json_from(:status => complaint.status)
     else
-      response = json_from(:response => 404,
-                           :message => MATCH_NOT_FOUND,
-                           :status => "NA",
-                           :reference_id => "NA")
+      set_json_response json_from({}), 404
     end
 
-    set_json_response response
   end
   
   def upload_file
@@ -163,10 +151,10 @@ class ComplaintsController < ApplicationController
     map.to_json
   end
 
-  def set_json_response response
+  def set_json_response response, status = 200
     respond_to do |format|
       format.json {
-        render :json => response
+        render :json => response, :status => status
       }
       
     end

@@ -1,4 +1,7 @@
 class Complaint < ActiveRecord::Base
+  OPEN = "Open"
+  CLOSED = "Closed"
+
   validates_presence_of :mobile, :location, :complaint_type
   
   def turn_around_time
