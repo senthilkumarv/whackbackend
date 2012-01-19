@@ -1,1 +1,8 @@
 WaterHack Bangalore
+
+Hacking:
+1. Install rvm.
+2. rvm use 1.9.2
+3. rvm gemset create wh
+4. rvm use 1.9.2@wh
+5. bundle install
