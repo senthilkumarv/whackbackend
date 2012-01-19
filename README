@@ -1,6 +1,7 @@
-WaterHack Bangalore
+OpenC3
 
-Hacking:
+Installation Steps:
+
 1. Install rvm.
 2. rvm use 1.9.2
 3. rvm gemset create wh
